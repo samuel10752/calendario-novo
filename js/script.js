@@ -27,6 +27,7 @@ $(function() {
         themeSystem: 'bootstrap',
         //Random default events
         events: events,
+        // evento de varias datas e ja preenchar os inputs da data inicio e fim
         select: async (arg)=>{
             // console.log(arg);
             var startDatetime = moment(arg.start).format('YYYY-MM-DDTHH:mm');
@@ -59,7 +60,7 @@ $(function() {
             // Do Something after events mounted
         },
         dateClick: function(info) {
-            // set start_datetime and end_datetime to clicked date
+        // evento que selecio uma e ja preenchar os inputs da data inicio e fim
             var clickedDate = moment(info.dateStr).format('YYYY-MM-DDTHH:mm');
             $('#start_datetime').val(clickedDate);
             $('#end_datetime').val(clickedDate);

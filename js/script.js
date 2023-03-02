@@ -27,6 +27,13 @@ $(function() {
         themeSystem: 'bootstrap',
         //Random default events
         events: events,
+        select: async (arg)=>{
+            // console.log(arg);
+            var startDatetime = moment(arg.start).format('YYYY-MM-DDTHH:mm');
+            var endDatetime = moment(arg.end).format('YYYY-MM-DDTHH:mm');
+            $('#start_datetime').val(startDatetime);
+            $('#end_datetime').val(endDatetime);
+        },
         eventDrop:function(info){
             console.log(info);
             resizeAndDrop(info);
@@ -58,7 +65,6 @@ $(function() {
             $('#end_datetime').val(clickedDate);
             // ...
         }
-           
     });
 
     calendar.render();

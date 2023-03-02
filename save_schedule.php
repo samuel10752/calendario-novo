@@ -8,6 +8,7 @@ if($_SERVER['REQUEST_METHOD'] !='POST'){
 extract($_POST);
 $allday = isset($allday);
 
+// Erro quando vai salvar no banco de dados assim, verificar o problema e fazefr a correção. ( erro no insert e chave estrangeira )
 if(empty($id)){
     $sql = "INSERT INTO `calendario_de_aula` (`ra_docente`,`id_uc`,`horario_inicio`,`horario_fim`) VALUES ('$title','$description','$start_datetime','$end_datetime')";
 }else{

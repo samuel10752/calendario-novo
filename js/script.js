@@ -51,6 +51,14 @@ $(function() {
         eventDidMount: function(info) {
             // Do Something after events mounted
         },
+        dateClick: function(info) {
+            // set start_datetime and end_datetime to clicked date
+            var clickedDate = moment(info.dateStr).format('YYYY-MM-DDTHH:mm');
+            $('#start_datetime').val(clickedDate);
+            $('#end_datetime').val(clickedDate);
+            // ...
+        }
+           
     });
 
     calendar.render();

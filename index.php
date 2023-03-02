@@ -139,6 +139,7 @@
             </div>
         </div>
     </div>
+
     <!-- Event Details Modal -->
 
 <?php 

@@ -41,6 +41,3 @@ $conn->close();
 // // redireciona o usuário para a página inicial
 header("Location: http://localhost/calendario-novo/"); // substitua a barra com a URL da sua página inicial
 exit();
-
-
-?>

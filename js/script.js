@@ -31,9 +31,10 @@ $(function() {
         select: async (arg)=>{
             // console.log(arg);
             var startDatetime = moment(arg.start).format('YYYY-MM-DDTHH:mm');
-            var endDatetime = moment(arg.end).format('YYYY-MM-DDTHH:mm');
+            var endDatetime = moment(arg.end).subtract(1, 'day').format('YYYY-MM-DDTHH:mm');
             $('#start_datetime').val(startDatetime);
             $('#end_datetime').val(endDatetime);
+            
         },
         eventDrop:function(info){
             console.log(info);
@@ -122,7 +123,7 @@ $(function() {
         newDateEnd = `${newDateEnd.getFullYear()}-${monthEnd}-${dayEnd} ${newDateEnd.getHours()}:${minutesEnd}:00`
 
 
-        let reqs = await fetch('http://localhost/schedule-master/ControllerDrop.php',{
+        let reqs = await fetch('http://localhost/calendario-novo/ControllerDrop.php',{
             method:'post',
             headers:{
                 'Content-Type':'application/x-www-form-urlencoded'

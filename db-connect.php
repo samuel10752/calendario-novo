@@ -2,7 +2,7 @@
 $host     = 'localhost';
 $username = 'root';
 $password = '';
-$dbname   ='dummy_db.sql'; //Aqui você altera o nome do banco 
+$dbname   ='dummy_db';
 
 $conn = new mysqli($host, $username, $password, $dbname);
 if(!$conn){

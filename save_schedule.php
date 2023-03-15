@@ -8,36 +8,53 @@ if($_SERVER['REQUEST_METHOD'] !='POST'){
 extract($_POST);
 $allday = isset($allday);
 
-// Erro quando vai salvar no banco de dados assim, verificar o problema e fazefr a correção. ( erro no insert e chave estrangeira )
-if(empty($id)){   // alterado de ra_docente para usuario_id para o novo banco de daods
-    $sql = "INSERT INTO `calendario_de_aula` (`usuario_id`,`id_uc`,`horario_inicio`,`horario_fim`) VALUES ('$title','$description','$start_datetime','$end_datetime')";
+if(empty($id)){
+    $sql = "INSERT INTO `calendario_de_aula` (`ra_docente`,`id_uc`,`horario_inicio`,`horario_fim`) VALUES ('$title','$description','$start_datetime','$end_datetime')";
 }else{
-    $sql = "UPDATE `calendario_de_aula` set `usuario_id` = '{$title}', `id_uc` = '{$description}', `horario_inicio` = '{$start_datetime}', `horario_fim` = '{$end_datetime}' where `id` = '{$id}'";
+    $sql = "UPDATE `calendario_de_aula` set `ra_docente` = '{$title}', `id_uc` = '{$description}', `horario_inicio` = '{$start_datetime}', `horario_fim` = '{$end_datetime}' where `id` = '{$id}'";
 }
-
-$save = $conn->query($sql);
+$save = $conn->query($sql); //teste de poupa
 // if ($save) {
-//     // teste notificação depois de criar aula
-//   // exibe a mensagem de sucesso e redireciona para a página inicial
-//   echo "<div>Cadastro realizado com sucesso.</div>";
-//   echo "<script>
-//           setTimeout(function() {
-//             window.location.href = 'index.php';
-//           }, 3000); // a mensagem ficará visível por 3 segundos
-//         </script>";
-// } else {
-//   // exibe a mensagem de erro e recarrega a página atual
-//   echo "<div>Erro ao realizar cadastro.</div>";
-//   echo "<script>
-//           setTimeout(function() {
-//             window.location.reload();
-//           }, 3000); // a mensagem ficará visível por 3 segundos
-//         </script>";
-// }
-
+//     // exibe a mensagem de sucesso em um popup
+//     echo "<div id='success-popup' class='popup'>
+//             <div class='popup-message'>Cadastro realizado com sucesso.</div>
+//           </div>";
+//     echo "<script>
+//             // fecha o popup após 3 segundos
+//             setTimeout(function() {
+//               var popup = document.getElementById('success-popup');
+//               popup.style.display = 'none';
+//             }, 3000);
+  
+//             // redireciona para a página inicial após o popup ser fechado
+//             setTimeout(function() {
+//               window.location.href = 'index.php';
+//             }, 3500);
+//           </script>";
+//   } else {
+//     // exibe a mensagem de erro em um popup
+//     echo "<div id='error-popup' class='popup'>
+//             <div class='popup-message'>Erro ao realizar cadastro.</div>
+//           </div>";
+//     echo "<script>
+//             // fecha o popup após 3 segundos
+//             setTimeout(function() {
+//               var popup = document.getElementById('error-popup');
+//               popup.style.display = 'none';
+//             }, 3000);
+  
+//             // recarrega a página atual após o popup ser fechado
+//             setTimeout(function() {
+//               window.location.reload();
+//             }, 3500);
+//           </script>";
+//   }
+  
 
 $conn->close();
 
 // // redireciona o usuário para a página inicial
-header("Location: http://localhost/calendario-novo/"); // substitua a barra com a URL da sua página inicial
+header("Location:http://localhost/schedule/views/adm/"); // substitua a barra com a URL da sua página inicial
 exit();
+
+?>

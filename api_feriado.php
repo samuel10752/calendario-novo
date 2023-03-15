@@ -5,12 +5,6 @@ header('Content-Type: application/json');
 // essa funcao ela que apareca em todos os dias que foram adicionados os feriados
 $feriados = array(
     '01-01' => 'Ano Novo',
-<<<<<<< HEAD
-=======
-    '02-20'  => 'Carnaval',
-    '02-21'  => 'Carnaval',
-    '02-22'  => 'Carnaval',
->>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
     '04-21' => 'Tiradentes',
     '05-01' => 'Dia do Trabalho',
     '09-07' => 'Independência do Brasil',
@@ -24,12 +18,6 @@ $feriados = array(
 function getFeriados($ano) {
     $feriados = array(
         '01-01' => 'Ano Novo',
-<<<<<<< HEAD
-=======
-        '02-20'  => 'Carnaval',
-        '02-21'  => 'Carnaval',
-        '02-22'  => 'Carnaval',
->>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
         '04-21' => 'Tiradentes',
         '05-01' => 'Dia do Trabalho',
         '09-07' => 'Independência do Brasil',

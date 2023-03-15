@@ -129,6 +129,7 @@ nav .icon-burger .line {
 }
 
 
+<<<<<<< HEAD
 @media screen and (max-width: 1500px) {
   nav .logo {
       float: none;
@@ -172,6 +173,8 @@ nav .icon-burger .line {
 }
 
 
+=======
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
 @media screen and (max-width: 768px) {
     nav .logo {
         float: none;

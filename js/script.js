@@ -13,7 +13,11 @@ $(function () {
     if (!!scheds) {
         Object.keys(scheds).map(k => {
             var row = scheds[k]
+<<<<<<< HEAD
             events.push({ id: row.id, title: row.ra_docente, start: row.horario_inicio, end: row.horario_fim });
+=======
+            events.push({ id: row.id, title: row.ra_docente, start: row.horario_inicio, end: row.horario_fim });          
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
         })
     }
     var date = new Date()
@@ -28,7 +32,11 @@ $(function () {
             center: 'dayGridMonth,dayGridWeek,list',
             locale: 'pt-br'
         },
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
         locale: 'pt-br',
         selectable: true, // inicio do evento de select de varias datas e ja preenchar os inputs da data inicio e fim
         editable: true, // inicio evento de fazer as edições
@@ -48,6 +56,7 @@ $(function () {
             // Loop para percorrer os anos desejados
             for (var year = 2023; year <= 2030; year++) {
                 // Ano novo
+<<<<<<< HEAD
                 holidays.push(moment(year + '-01-02').format('YYYY-MM-DD'));
 
                 // Tiradentes
@@ -70,10 +79,39 @@ $(function () {
 
                 // Natal
                 holidays.push(moment(year + '-12-26').format('YYYY-MM-DD'));
+=======
+                holidays.push(moment(year + '-01-01').format('YYYY-MM-DD'));
+
+                // Carnaval
+                holidays.push(moment(year + '-02-20').format('YYYY-MM-DD'));
+                holidays.push(moment(year + '-02-21').format('YYYY-MM-DD'));
+                holidays.push(moment(year + '-02-22').format('YYYY-MM-DD'));
+                // Tiradentes
+                holidays.push(moment(year + '-04-21').format('YYYY-MM-DD'));
+
+                // Dia do Trabalho
+                holidays.push(moment(year + '-05-01').format('YYYY-MM-DD'));
+
+                // Independência do Brasil
+                holidays.push(moment(year + '-09-07').format('YYYY-MM-DD'));
+
+                // Nossa Senhora Aparecida
+                holidays.push(moment(year + '-10-12').format('YYYY-MM-DD'));
+
+                // Finados
+                holidays.push(moment(year + '-11-02').format('YYYY-MM-DD'));
+
+                // Proclamação da República
+                holidays.push(moment(year + '-11-15').format('YYYY-MM-DD'));
+
+                // Natal
+                holidays.push(moment(year + '-12-25').format('YYYY-MM-DD'));
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
             }
 
             // Exemplo de como utilizar a lista de feriados
 
+<<<<<<< HEAD
             if (holidays.includes(moment(arg.start).format('YYYY-MM-DD'))) {
                 if (moment(arg.start).format('YYYY-MM-DD') === '2023-01-01') { // Exibir popup somente para o feriado de Ano Novo de 2023
                     $('#feriado-modal').modal('show');
@@ -87,6 +125,22 @@ $(function () {
                 }
             }
 
+=======
+            // Verifica se a data selecionada é um feriado
+            if (holidays.includes(moment(arg.start).format('YYYY-MM-DD'))) {
+                // Exibe o modal de aviso
+                $('#feriado-modal').modal('show');
+                $('#feriado-modal .close').click(function () { // ele faz que quando cancelar ele volta para a tela de editar
+                    $('#feriado-modal').modal('hide');
+                });
+                $('#feriado-modal .close, #feriado-modal .modal-footer button').click(function () {
+                    $('#feriado-modal').modal('hide');
+                });
+
+                return;
+
+            }
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
 
             // Verifica se a data de fim selecionada está no futuro ou não
             if (moment(arg.end).isBefore(moment())) {
@@ -110,6 +164,7 @@ $(function () {
                 return;
             }
 
+<<<<<<< HEAD
             // Verifica se a data selecionada é um feriado
             if (holidays.includes(moment(arg.start).format('YYYY-MM-DD'))) {
                 // Exibe o modal de aviso
@@ -129,6 +184,8 @@ $(function () {
 
 
 
+=======
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
 
             // Se a data selecionada não é um feriado, continue com o evento normalmente
             var startDatetime = moment(arg.start).format('YYYY-MM-DDTHH:mm');
@@ -143,11 +200,18 @@ $(function () {
             // $('#popup-container').show();
         },
 
+<<<<<<< HEAD
 
         dayHeaderContent: function (arg) {
             var dayOfWeek = arg.date.getUTCDay();
             var customDayName;
 
+=======
+        dayHeaderContent: function(arg) {
+            var dayOfWeek = arg.date.getUTCDay();
+            var customDayName;
+            
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
             switch (dayOfWeek) {
                 case 0:
                     customDayName = 'Domingo';
@@ -173,9 +237,15 @@ $(function () {
                 default:
                     customDayName = arg.text;
             }
+<<<<<<< HEAD
 
             return customDayName;
         },
+=======
+            
+            return customDayName;
+        },  
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
 
 
         // Fim evento de varias datas e ja preenchar os inputs da data inicio e fim e ja formatado para o banco reconhecer como string
@@ -244,8 +314,11 @@ $(function () {
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
     // teste de api de feriados
     getFeriados().then(function (feriados) {
         $.each(feriados, function (index, feriado) {
@@ -275,8 +348,14 @@ $(function () {
     // teste de api de feriados
 
 
+<<<<<<< HEAD
     // Aqui e a funcao que impeca que cria aula em feriados nacionais
 
+=======
+
+
+    // teste  de impeca de criar aula em feriados:
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
     $(document).ready(function () {
         // Adicionar ouvinte de evento ao botão salvar
         $('#save-btn').click(function () {
@@ -287,6 +366,7 @@ $(function () {
             var is_holiday = getFeriados(year, month, day);
 
             if (is_holiday) {
+<<<<<<< HEAD
                 // exibir a mensagem de popup
                 var feriadoModal = $('#feriado-modal');
                 feriadoModal.find('.modal-body').html('Não é possível criar aula em feriados.');
@@ -294,12 +374,32 @@ $(function () {
             } else {
                 $('#schedule-form').submit(); // Envia o formulário
             }
+=======
+                $('#feriado-modal').modal('show');
+            } else {
+                $('#schedule-form').submit(); // Envia o formulário
+            }
+            $('#feriado-modal .close').click(function () { // ele faz que quando cancelar ele volta para a tela de editar
+                $('#feriado-modal').modal('hide');
+            });
+            $('#feriado-modal .close, #feriado-modal .modal-footer button').click(function () {
+                $('#feriado-modal').modal('hide');
+            });
+
+
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
         });
 
         //Função que retorna true se a data for feriado
         function getFeriados(year, month, day) {
             var holidays = {
                 '01-01': 'Ano Novo',
+<<<<<<< HEAD
+=======
+                '02-20': 'Carnaval',
+                '02-21': 'Carnaval',
+                '02-22': 'Carnaval',
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
                 '04-21': 'Tiradentes',
                 '05-01': 'Dia do Trabalho',
                 '09-07': 'Independência do Brasil',
@@ -322,6 +422,7 @@ $(function () {
 
             return holiday;
         }
+<<<<<<< HEAD
 
         // Adicionar ouvinte de evento ao formulário de agendamento
         $('#schedule-form').on('submit', function (e) {
@@ -358,11 +459,36 @@ $(function () {
                         $('#schedule-form').trigger('reset');
                     }
                 });
+=======
+    });
+
+    //teste de fazer um popup apareca e depois some e da um reset na pagina
+
+    $('#schedule-form').on('submit', function (e) {
+        e.preventDefault();
+
+        // faz o envio do formulário via AJAX
+        $.ajax({
+            url: '../../save_schedule.php',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function () {
+                // exibe a mensagem de sucesso na caixa de diálogo
+                $('#success-modal').modal('show');
+
+                $('#schedule-form').show().fadeOut(3000, function () {
+                    // recarrega a página após a mensagem desaparecer
+                    location.reload();
+                });
+                // limpa o formulário
+                $('#schedule-form').trigger('reset');
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
             }
         });
     });
 
 
+<<<<<<< HEAD
     // Aqui e a funcao que impeca que cria feriado em feriados nacionais
 
     $(document).ready(function () {
@@ -446,11 +572,36 @@ $(function () {
                         $('#schedule-form1').trigger('reset');
                     }
                 });
+=======
+    //teste de fazer um popup apareca e depois some e da um reset na pagina
+
+    $('#schedule-form1').on('submit', function (e) {
+        e.preventDefault();
+
+        // faz o envio do formulário via AJAX
+        $.ajax({
+            url: '../../save_feriado.php',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function () {
+                // exibe a mensagem de sucesso na caixa de diálogo
+                $('#success-modal').modal('show');
+
+                $('#schedule-form1').show().fadeOut(3000, function () {
+                    // recarrega a página após a mensagem desaparecer
+                    location.reload();
+                });
+                // limpa o formulário
+                $('#schedule-form1').trigger('reset');
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
             }
         });
     });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
     //teste de fazer um popup apareca e depois some e da um reset na pagina de deletar
     $('#delete').click(function () {
         var id = $(this).attr('data-id');
@@ -507,7 +658,11 @@ $(function () {
 
 
 
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
 
     // Form reset listener
     $('#schedule-form').on('reset', function () {
@@ -516,7 +671,11 @@ $(function () {
     })
 
 
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
     // Form reset listener
     $('#schedule-form1').on('reset', function () {
         $(this).find('input:hidden').val('')
@@ -567,6 +726,7 @@ $(function () {
 
     // Editar botão de feriados
 
+<<<<<<< HEAD
     trocarFormBtn.addEventListener("click", () => {
         aulaForm.style.display = "none";
         feriadoForm.style.display = "block";
@@ -576,6 +736,17 @@ $(function () {
         feriadoForm.style.display = "none";
         aulaForm.style.display = "block";
     });
+=======
+trocarFormBtn.addEventListener("click", () => {
+    aulaForm.style.display = "none";
+    feriadoForm.style.display = "block";
+  });
+  
+  trocarFormBtn2.addEventListener("click", () => {
+    feriadoForm.style.display = "none";
+    aulaForm.style.display = "block";
+  });
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
     //teste de fazer um popup apareca e depois some e da um reset na pagina
 
 
@@ -586,28 +757,39 @@ $(function () {
     // função que faz a converção de mês, data e minutos para string, para o banco reconhcer 
 
     //Arraste e redimensionamento de eventos
+<<<<<<< HEAD
     async function resizeAndDrop(info) {
+=======
+    async function resizeAndDrop(info){
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
         let newDate = new Date(info.event.start);
-        let month = ((newDate.getMonth() + 1) < 9) ? "0" + (newDate.getMonth() + 1) : newDate.getMonth() + 1;
-        let day = ((newDate.getDate()) < 9) ? "0" + newDate.getDate() : newDate.getDate();
-        let minutes = ((newDate.getMinutes()) < 9) ? "0" + newDate.getMinutes() : newDate.getMinutes();
+        let month = ((newDate.getMonth()+1)<9)?"0"+(newDate.getMonth()+1):newDate.getMonth()+1;
+        let day = ((newDate.getDate())<9)?"0"+newDate.getDate():newDate.getDate();
+        let minutes = ((newDate.getMinutes())<9)?"0"+newDate.getMinutes():newDate.getMinutes();
         newDate = `${newDate.getFullYear()}-${month}-${day} ${newDate.getHours()}:${minutes}:00`
 
         let newDateEnd = new Date(info.event.end);
-        let monthEnd = ((newDateEnd.getMonth() + 1) < 9) ? "0" + (newDateEnd.getMonth() + 1) : newDateEnd.getMonth() + 1;
-        let dayEnd = ((newDateEnd.getDate()) < 9) ? "0" + newDateEnd.getDate() : newDateEnd.getDate();
-        let minutesEnd = ((newDateEnd.getMinutes()) < 9) ? "0" + newDateEnd.getMinutes() : newDateEnd.getMinutes();
+        let monthEnd = ((newDateEnd.getMonth()+1)<9)?"0"+(newDateEnd.getMonth()+1):newDateEnd.getMonth()+1;
+        let dayEnd = ((newDateEnd.getDate())<9)?"0"+newDateEnd.getDate():newDateEnd.getDate();
+        let minutesEnd = ((newDateEnd.getMinutes())<9)?"0"+newDateEnd.getMinutes():newDateEnd.getMinutes();
         newDateEnd = `${newDateEnd.getFullYear()}-${monthEnd}-${dayEnd} ${newDateEnd.getHours()}:${minutesEnd}:00`
 
         console.log(info.event.start);
         console.log(info.event.end);
 
+<<<<<<< HEAD
         let reqs = await fetch('http://localhost/schedule/ControllerDrop.php', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
+=======
+        let reqs = await fetch('http://localhost/schedule/ControllerDrop.php',{
+            method:'post',
+            headers:{
+                'Content-Type':'application/x-www-form-urlencoded'
+>>>>>>> f2d99fc6b880f69132169f4afc20130321cd6517
             },
-            body: `id=${info.event.id}&start=${newDate}&end=${newDateEnd}`
+            body:`id=${info.event.id}&start=${newDate}&end=${newDateEnd}`
         });
         let ress = await reqs.json();
     }

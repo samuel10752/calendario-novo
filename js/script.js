@@ -40,7 +40,7 @@ $(function () {
 
         // inicio evento de varias datas e ja preenchar os inputs da data inicio e fim e ja formatado para o banco reconhecer como string
         select: async (arg) => {
-            // Lista de feriados
+
 
             // Lista de feriados
             var holidays = [];
@@ -90,7 +90,18 @@ $(function () {
 
             // Verifica se a data de fim selecionada está no futuro ou não
             if (moment(arg.end).isBefore(moment())) {
-                alert('A data de término selecionada já passou!');
+                // alert('A data de término selecionada já passou!');
+                // Exibe o modal de aviso
+                $('#alerta-modal').modal('show');
+                $('#alerta-modal .close').click(function () { // ele faz que quando cancelar ele volta para a tela de editar
+                    $('#alerts-modal').modal('hide');
+                });
+                $('#alerta-modal .close, #alerta-modal .modal-footer button').click(function () {
+                    $('#alerta-modal').modal('hide');
+                });
+
+                // // Esconde o formulário
+                // $('#popup-container').hide();
                 return;
             }
             // Verifica se a data selecionada é um feriado
@@ -109,25 +120,6 @@ $(function () {
 
                 return;
             }
-
-            // Verifica se a data selecionada é um feriado
-            if (holidays.includes(moment(arg.start).format('YYYY-MM-DD'))) {
-                // Exibe o modal de aviso
-                $('#feriado-modal').modal('show');
-                $('#feriado-modal .close').click(function () { // ele faz que quando cancelar ele volta para a tela de editar
-                    $('#feriado-modal').modal('hide');
-                });
-                $('#feriado-modal .close, #feriado-modal .modal-footer button').click(function () {
-                    $('#feriado-modal').modal('hide');
-                });
-
-                // // Esconde o formulário
-                // $('#popup-container').hide();
-
-                return;
-            }
-
-
 
 
             // Se a data selecionada não é um feriado, continue com o evento normalmente
@@ -532,20 +524,20 @@ $(function () {
                 var _form = $('#schedule-form')
                 console.log(String(scheds[id].horario_inicio), String(scheds[id].horario_inicio).replace(" ", "\\t"))
                 _form.find('[name="id"]').val(id)
-                _form.find('[name="title"]').val(scheds[id].ra_docente) //altera para usuario_id
+                _form.find('[name="value"]').val(scheds[id].ra_user) //altera de ra_docente para ra_user
                 _form.find('[name="description"]').val(scheds[id].id_uc)
                 _form.find('[name="start_datetime"]').val(String(scheds[id].horario_inicio).replace(" ", "T"))
                 _form.find('[name="end_datetime"]').val(String(scheds[id].horario_fim).replace(" ", "T"))
                 $('#event-details-modal').modal('hide')
-                _form.find('[name="title"]').focus()
+                _form.find('[name="value"]').focus()
             } else {
                 alert("Event is undefined");
             }
         })
     });
+    
 
-
-    // Editar botão de criar aula
+    // Editar botão de criar feriado
     $(document).ready(function () {
         $('#edit-evento').click(function () {
             var id = $(this).attr('data-id')
@@ -576,11 +568,50 @@ $(function () {
         feriadoForm.style.display = "none";
         aulaForm.style.display = "block";
     });
-    //teste de fazer um popup apareca e depois some e da um reset na pagina
 
 
+    // buscar o ra_user e o nome do professor
 
+    var isTitleLoaded = false; // Inicialmente definido como falso
 
+    document.getElementById("title").addEventListener("click", function () {
+        // Verificar se o título já foi carregado
+        if (!isTitleLoaded) {
+            isTitleLoaded = true; // Definir como verdadeiro para evitar futuras chamadas
+            // Fazer uma solicitação ao servidor para recuperar as informações dos docentes
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Analisar a resposta JSON do servidor para obter as informações dos docentes
+                    var response = JSON.parse(this.responseText);
+                    if (response.length > 0) {
+                        // Adicionar as opções ao elemento "select"
+                        var select = document.getElementById("title");
+                        for (var i = 0; i < response.length; i++) {
+                            var option = document.createElement("option");
+                            option.value = response[i].ra_user;
+                            option.text = response[i].nome;
+                            select.appendChild(option);
+                        }
+    
+                        // Atualizar o valor do campo de entrada "title" quando uma opção for selecionada
+                        select.addEventListener("change", function () {
+                            var selectedOption = select.options[select.selectedIndex];
+                            var name = selectedOption.text;
+                            document.getElementById("title").value = selectedOption.value;
+                            document.getElementById("docente-name").innerHTML = name; //adiciona o nome do docente ao elemento de texto
+                        });
+    
+                    }
+                    else {
+                        alert("Nenhum docente encontrado.");
+                    }
+                }
+            }
+            xhr.open("GET", "http://localhost/schedule1/buscar_usuario.php", true);
+            xhr.send();
+        }
+    });
 
     //Arraste e redimensionamento de eventos
     // função que faz a converção de mês, data e minutos para string, para o banco reconhcer 

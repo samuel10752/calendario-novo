@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
+
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+  box-sizing: border-box;
+}
+
+body{
+    background: linear-gradient(105.18deg, #f4fbfa 0%, #bebebe 100%);
+}
+
+.container{
+    /* border: 1px solid red; */
+    background-color: #fff;
+
+    height: 92vh;
+    width: 95vw;
+
+    margin: 1.9% auto;
+    border-radius: 20px;
+
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    grid-template-rows: 25vh 25vh 25vh;
+    grid-template-areas: " title . form"
+                         "title img form"
+                         ". img ."
+                         ". img .";
+}
+
+.title{
+    /* background-color: green;*/
+    grid-area: title;
+    padding: 30% 0 0 20%;
+    font-size: 2.2rem;
+}
+
+.imagem-principal{
+    /* background-color: red; */
+    grid-area: img;
+}
+
+.formulario-login{
+    /* background-color: black; */
+    grid-area: form;
+    padding: 30% 0 0 0%;
+}
+
+.formulario-login input{
+    width: 60%;
+    height: 2.5rem;
+
+    border: none;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+
+    padding-left: 20px;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+.send_btn{
+    padding-left: 0;
+    background-color: orange !important;
+
+    font-size: 1.3rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.send_btn:hover{
+    opacity: .8;
+}
+
+.inp_senha{
+    width: 60%;
+    height: 2.6rem;
+
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+#password{
+    width: 87%;
+    /* background-color: green ; */
+}
+
+.inp_senha span{
+    padding-left: 1%;
+}
+
+@media screen {
+    
+}

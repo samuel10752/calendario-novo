@@ -1,30 +1,39 @@
 <?php
 require_once('../db-connect.php');
 
+// Consulta o ID da última turma adicionada
+$stmt = $conn->prepare("SELECT id FROM turma ORDER BY id DESC LIMIT 1");
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$turma_id = $row['id'];
+
 // Definir codificação para exibir caracteres especiais corretamente
 $conn->set_charset("utf8");
 
 // Buscar a lista de turmas
-$turmas = $conn->query("SELECT nome, id, tipo, sala, turno, carga_horaria, COUNT(*) AS total FROM turma GROUP BY nome ORDER BY nome");
+$turmas_uc = $conn->query("SELECT turma.nome, turma.id, turma.tipo,turma.sala,turma.turno, turma.carga_horaria, COUNT(uc.nome_uc) AS total_uc, GROUP_CONCAT(uc.nome_uc SEPARATOR '<br>') AS ucs_nome, GROUP_CONCAT(uc.carga_horaria SEPARATOR '<br>') AS ucs_carga_horaria FROM turma LEFT JOIN uc ON turma.id = uc.num_turma GROUP BY turma.id ORDER BY turma.nome");
+
 
 // Verificar se existem turmas correspondentes
-if ($turmas->num_rows > 0) {
+if ($turmas_uc->num_rows > 0) {
   echo '<table>';
-  echo '<tbody id="conteudo">';
+  echo '<tbody class="btn trigger" id="conteudo">';
 
-  // Loop para exibir cada turma
-  while ($turma = $turmas->fetch_assoc()) {
-      echo "<tr>";
-      echo '<td class="btn trigger" style="width: 25%; overflow: hidden;" data-turma-id="'.$turma['id'].'" data-nome="' . $turma['nome'] . '" data-tipo="' . $turma['tipo'] . '" data-id="' . $turma['id'] . '" data-turno="' . $turma['turno'] . '" data-sala="' . $turma['sala'] . '">' . $turma['nome'] . '</td>';
-      echo '<td style="width: 25%; overflow: hidden;">' . $turma['id'] . '</td>';
-      echo '<td style="width: 25%; overflow: hidden;">' . $turma['tipo'] . '</td>';
-      echo '<td style="width: 25%; overflow: hidden;">' . $turma['sala'] . '</td>';
-      echo "</tr>";
-    }
+  // Loop para exibir cada turma com as UCs cadastradas
+  while ($turma_uc = $turmas_uc->fetch_assoc()) {
+    echo '<tr class="teste">';
+    echo '<td class="btn trigger" data-turma-id="' . $turma_uc['id'] . '" class="btn trigger" data-nome="' . $turma_uc['tipo'] . '" class="btn trigger" data-tipo="' . $turma_uc['tipo'] . '" data-id="' . $turma_uc['id'] . '">' . $turma_uc['id'] . '</td>';
+    echo '<td onclick="redirectToDetails(' . $turma_uc['id'] . ')">' . $turma_uc['nome'] . '</td>';
+    echo '<td onclick="redirectToDetails(' . $turma_uc['id'] . ')">' . $turma_uc['sala'] . '</td>';
+    echo '<td onclick="redirectToDetails(' . $turma_uc['id'] . ')">' . $turma_uc['turno'] . '</td>';
+    echo '</tr>';
+  }
+
   echo '</tbody>';
   echo '</table>';
 } else {
-  echo '<p>Não foram encontradas turmas com esse nome.</p>';
+  echo '<p> Não foram encontradas turmas com esse nome. </p>';
 }
 
 // Fechar a conexão com o banco de dados

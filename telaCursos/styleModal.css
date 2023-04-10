@@ -1,0 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+.modal-content form .user__details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 2px;
+    padding: 26px 0px 0px 0px;
+    top: 12px;
+    position: relative;
+}
+
+
+/* inside the form user details */
+
+form .user__details .input__box {
+    width: calc(100% / 2 - 8px);
+    margin-bottom: 30px;
+}
+
+.user__details .input__box .details {
+    font-weight: 500;
+    margin-bottom: 1px;
+    display: block;
+}
+
+.user__details .input__box input {
+    height: 55px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 0px solid var(--main-grey);
+    padding: 0px 0px 3px 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #E2E1E3;
+    
+}
+input[type=number]::-webkit-inner-spin-buttonMD { 
+    -webkit-appearance: none;
+    
+}
+input[type=number] { 
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+}
+
+.user__details .input__box input:focus,
+.user__details .input__box input:valid {}
+
+form .user__details .input__box1 {
+    width: calc(100% / 1 - 1px);
+    margin-bottom: 29px;
+}
+
+.user__details .input__box1 .details {
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.user__details .input__box1 input {
+    height: 55px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 0px solid var(--main-grey);
+    padding-left: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #E2E1E3;
+}
+
+
+/* inside the form gender details */
+
+
+/* submit button */
+
+form .buttonMD {
+    height: 55px;
+    margin-bottom: 1rem 0;
+}
+
+form .buttonMD input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    font-weight: 500;
+    border-radius: 20px;
+    background: #FF9022;
+    transition: all 0.3s ease;
+}
+
+#eixo {
+    height: 55px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 0px solid var(--main-grey);
+    padding: 0px 0px 3px 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #E2E1E3;
+}
+
+form .buttonMD input:hover {
+    opacity: 0.7;
+}
+
+@media only screen and (max-width: 420px) {
+    .modal-content {
+        max-width: 100%;
+    }
+    form .user__details .input__box {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+    form .gender__details .category {
+        width: 100%;
+    }
+    .modal-content form .user__details {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+    .user__details::-webkit-scrollbar {
+        width: 0;
+    }
+}
+
+.modal-content form .user__details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 80px 0 1px 0;
+}
+
+.triggerCr {
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.modalCr {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 110%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.trigger-uc {
+    text-align: center;
+
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.modal-uc {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 0 1.5rem 20rem 1.5rem;
+    width: 30rem;
+    height: 42rem;
+    background: #FBFBFB;
+    border: 1px solid #000000;
+    border-radius: 15px;
+}
+
+.modal-content h1 {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    color: #000000;
+    margin: 7rem;
+    position: absolute;
+    margin-top: 2.5rem;
+    white-space: nowrap;
+}
+
+.close-button3 {
+    position: absolute;
+    top: 39.5rem;
+    left: 13.4rem;
+    cursor: pointer;
+    font-size: 12px;
+    color: #000000;
+}
+
+
+
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    backdrop-filter: blur(1px);
+}
+
+
+
+.modal-content1 {
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 0 4.5rem 25rem 4.5rem;
+    width: 28rem;
+    height: 28rem;
+    background: #FBFBFB;
+    border: 1px solid #000000;
+    border-radius: 15px;
+}
+
+.modal-content1 form .user__details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 75px;
+    padding: 0px 0px 0px 5px;
+    top: 12px;
+    position: relative;
+}
+
+.modal-content1 h1 {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    color: #000000;
+    margin: 4rem;
+    position: absolute;
+    margin-top: 2.5rem;
+    white-space: nowrap;
+}
+
+.close-button1 {
+    position: absolute;
+    top: 24.6rem;
+    left: 12.5rem;
+    cursor: pointer;
+    font-size: 12px;
+    color: #000000;
+}
+
+form .button1 {
+    height: 60px;
+    margin-top: 0.5rem ;
+}
+
+form .button1 input:hover {
+    opacity: 0.7;
+}
+
+form .button1 input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    font-weight: 500;
+    border-radius: 20px;
+    background: #FF9022;
+    transition: all 0.3s ease;
+}
+
+.button3 input{
+
+    margin: 0;
+    padding: 0;
+    margin-top: 2rem;     
+    text-decoration: none;
+    border: none;
+    background-color: #FBFBFB;
+    cursor: pointer;
+    
+    
+}
+
+.button3 input:focus  {
+    border: none;
+    display: none;
+
+}
+
+.button3 input:active{
+    border: none;
+    
+}

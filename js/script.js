@@ -16,6 +16,10 @@ $(function () {
             events.push({ id: row.id, title: row.ra_docente, start: row.horario_inicio, end: row.horario_fim });
         })
     }
+    // Recupera o class_id da turma selecionada na página anterior (se houver)
+    const urlParams = new URLSearchParams(window.location.search);
+    const class_id = urlParams.get('class_id');
+
     var date = new Date()
     var d = date.getDate(),
         m = date.getMonth(),
@@ -29,6 +33,7 @@ $(function () {
             locale: 'pt-br'
         },
 
+
         locale: 'pt-br',
         selectable: true, // inicio do evento de select de varias datas e ja preenchar os inputs da data inicio e fim
         editable: true, // inicio evento de fazer as edições
@@ -40,7 +45,7 @@ $(function () {
 
         // inicio evento de varias datas e ja preenchar os inputs da data inicio e fim e ja formatado para o banco reconhecer como string
         select: async (arg) => {
-
+            // Lista de feriados
 
             // Lista de feriados
             var holidays = [];
@@ -90,6 +95,7 @@ $(function () {
 
             // Verifica se a data de fim selecionada está no futuro ou não
             if (moment(arg.end).isBefore(moment())) {
+
                 // alert('A data de término selecionada já passou!');
                 // Exibe o modal de aviso
                 $('#alerta-modal').modal('show');
@@ -102,6 +108,7 @@ $(function () {
 
                 // // Esconde o formulário
                 // $('#popup-container').hide();
+
                 return;
             }
             // Verifica se a data selecionada é um feriado
@@ -121,10 +128,32 @@ $(function () {
                 return;
             }
 
+            // Verifica se a data selecionada é um feriado
+            if (holidays.includes(moment(arg.start).format('YYYY-MM-DD'))) {
+                // Exibe o modal de aviso
+                $('#feriado-modal').modal('show');
+                $('#feriado-modal .close').click(function () { // ele faz que quando cancelar ele volta para a tela de editar
+                    $('#feriado-modal').modal('hide');
+                });
+                $('#feriado-modal .close, #feriado-modal .modal-footer button').click(function () {
+                    $('#feriado-modal').modal('hide');
+                });
+
+                // // Esconde o formulário
+                // $('#popup-container').hide();
+
+                return;
+            }
+
+
+
 
             // Se a data selecionada não é um feriado, continue com o evento normalmente
-            var startDatetime = moment(arg.start).format('YYYY-MM-DDTHH:mm');
-            var endDatetime = moment(arg.end).subtract(1, 'day').format('YYYY-MM-DDTHH:mm');
+            var startDatetime = moment(arg.start).set({ hour: 6, minute: 0, second: 0 }).format('YYYY-MM-DDTHH:mm');
+            var endDatetime = moment(arg.end).set({ hour: 23, minute: 0, second: 0 }).subtract(1, 'day').format('YYYY-MM-DDTHH:mm');
+
+
+
 
             $('#start_datetime').val(startDatetime);
             $('#end_datetime').val(endDatetime);
@@ -190,9 +219,11 @@ $(function () {
 
             if (!!scheds[id] && scheds[id].tipo === 'aula') {
                 // É um evento de aula
+                // É um evento de aula
                 _details = $('#event-details-modal');
                 _details.find('#title').text(scheds[id].ra_docente);
-                _details.find('#description').text(scheds[id].id_uc);
+                _details.find('#description').text(scheds[id].nome_uc);
+
             } else if (!!scheds[id] && scheds[id].tipo === 'feriado') {
                 // É um evento de feriado
                 _details = $('#event-details-modal-feriado');
@@ -224,9 +255,13 @@ $(function () {
 
         dateClick: function (info) {
             // evento que select de uma data e ja preenchar os inputs da data inicio e fim
-            var clickedDate = moment(info.dateStr).format('YYYY-MM-DDTHH:mm');
-            $('#start_datetime').val(clickedDate);
-            $('#end_datetime').val(clickedDate);
+            // evento que select de uma data e já preencher os inputs da data inicio e fim
+            var clickedDate = moment(info.dateStr);
+            var startDatetime = clickedDate.set({ hour: 6, minute: 0, second: 0 }).format('YYYY-MM-DDTHH:mm');
+            var endDatetime = clickedDate.set({ hour: 23, minute: 30, second: 0 }).format('YYYY-MM-DDTHH:mm');
+            $('#start_datetime').val(startDatetime);
+            $('#end_datetime').val(endDatetime);
+
             // ...
         }
     });
@@ -238,32 +273,35 @@ $(function () {
 
 
 
-    // teste de api de feriados
+    // Teste de API de feriados
     getFeriados().then(function (feriados) {
         $.each(feriados, function (index, feriado) {
-            // cria um objeto de evento para cada feriado
+            // Cria um objeto de evento para cada feriado
             var event = {
                 title: feriado.nome,
                 start: feriado.data,
                 allDay: true,
-                backgroundColor: '#f00',// fundo vermelho
+                backgroundColor: feriado.tipo === 'facultativo' ? '#FFA500' : (feriado.tipo === 'ponto' ? '#A9A9A9' : '#f00'), // fundo laranja para facultativo, verde para ponto feriado, vermelho para feriado
                 textColor: '#fff' // texto em branco
             };
-            // adiciona o objeto de evento à lista de eventos do calendário
+            // Adiciona o objeto de evento à lista de eventos do calendário
             calendar.addEvent(event);
         });
     });
 
-    // Aqui ele acha a api de feriados
+    // Aqui ele acha a API de feriados
     function getFeriados() {
         return $.ajax({
-            url: 'http://localhost/schedule/api_feriado.php',
+            url: '../../funcoes_calendario/api_feriado.php',
             dataType: 'json',
             success: function (response) {
                 return response;
             }
         });
     }
+
+
+
     // teste de api de feriados
 
 
@@ -334,7 +372,7 @@ $(function () {
             } else {
                 // faz o envio do formulário via AJAX
                 $.ajax({
-                    url: '../../save_schedule.php',
+                    url: '../../funcoes_calendario/save_schedule.php',
                     method: 'POST',
                     data: $(this).serialize(),
                     success: function () {
@@ -422,7 +460,7 @@ $(function () {
             } else {
                 // faz o envio do formulário via AJAX
                 $.ajax({
-                    url: '../../save_feriado.php',
+                    url: '../../funcoes_calendario/save_feriado.php',
                     method: 'POST',
                     data: $(this).serialize(),
                     success: function () {
@@ -450,7 +488,7 @@ $(function () {
             $('#event-details-modal').modal('hide');
             $('#delete-modal').modal('show');
             $('#confirm-delete').click(function () {
-                location.href = "../../delete_schedule.php?id=" + id;
+                location.href = "../../funcoes_calendario/delete_schedule.php?id=" + id;
             });
             $('#delete-modal').on('hidden.bs.modal', function (e) {
                 $('#event-details-modal').modal('show');
@@ -476,7 +514,7 @@ $(function () {
             $('#event-details-modal-feriado').modal('hide');
             $('#delete-modal-feriado').modal('show');
             $('#confirm-delete-feriado').click(function () {
-                location.href = "../../delete_feriado.php?id=" + id;
+                location.href = "../../funcoes_calendario/delete_feriado.php?id=" + id;
             });
             $('#delete-modal-feriado').on('hidden.bs.modal', function (e) {
                 $('#event-details-modal-feriado').modal('show');
@@ -524,20 +562,20 @@ $(function () {
                 var _form = $('#schedule-form')
                 console.log(String(scheds[id].horario_inicio), String(scheds[id].horario_inicio).replace(" ", "\\t"))
                 _form.find('[name="id"]').val(id)
-                _form.find('[name="value"]').val(scheds[id].ra_user) //altera de ra_docente para ra_user
+                _form.find('[name="title"]').val(scheds[id].ra_docente) //altera para usuario_id
                 _form.find('[name="description"]').val(scheds[id].id_uc)
                 _form.find('[name="start_datetime"]').val(String(scheds[id].horario_inicio).replace(" ", "T"))
                 _form.find('[name="end_datetime"]').val(String(scheds[id].horario_fim).replace(" ", "T"))
                 $('#event-details-modal').modal('hide')
-                _form.find('[name="value"]').focus()
+                _form.find('[name="title"]').focus()
             } else {
                 alert("Event is undefined");
             }
         })
     });
-    
 
-    // Editar botão de criar feriado
+
+    // Editar botão de criar aula
     $(document).ready(function () {
         $('#edit-evento').click(function () {
             var id = $(this).attr('data-id')
@@ -568,50 +606,198 @@ $(function () {
         feriadoForm.style.display = "none";
         aulaForm.style.display = "block";
     });
+    //teste de fazer um popup apareca e depois some e da um reset na pagina
 
 
     // buscar o ra_user e o nome do professor
 
-    var isTitleLoaded = false; // Inicialmente definido como falso
 
-    document.getElementById("title").addEventListener("click", function () {
-        // Verificar se o título já foi carregado
-        if (!isTitleLoaded) {
-            isTitleLoaded = true; // Definir como verdadeiro para evitar futuras chamadas
-            // Fazer uma solicitação ao servidor para recuperar as informações dos docentes
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Analisar a resposta JSON do servidor para obter as informações dos docentes
-                    var response = JSON.parse(this.responseText);
-                    if (response.length > 0) {
-                        // Adicionar as opções ao elemento "select"
-                        var select = document.getElementById("title");
-                        for (var i = 0; i < response.length; i++) {
-                            var option = document.createElement("option");
-                            option.value = response[i].ra_user;
-                            option.text = response[i].nome;
-                            select.appendChild(option);
-                        }
-    
-                        // Atualizar o valor do campo de entrada "title" quando uma opção for selecionada
-                        select.addEventListener("change", function () {
-                            var selectedOption = select.options[select.selectedIndex];
-                            var name = selectedOption.text;
-                            document.getElementById("title").value = selectedOption.value;
-                            document.getElementById("docente-name").innerHTML = name; //adiciona o nome do docente ao elemento de texto
-                        });
-    
-                    }
-                    else {
-                        alert("Nenhum docente encontrado.");
-                    }
-                }
+    $(document).ready(function () {
+        $('#title').select2({
+            placeholder: 'Pesquisar nome do professor',
+            ajax: {
+                url: '../../funcoes_calendario/buscar_usuario.php',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        search: params.term // termo de pesquisa
+                    };
+                },
+                minimumInputLength: 2,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (obj) {
+                            return {
+                                id: obj.ra_user,
+                                text: obj.nome,
+                            };
+                        })
+                    };
+                },
+                cache: true
+            },
+            templateResult: function (result) {
+                // mostrar como lista com o número do RA
+                var markup =
+                    "<ul class='select2-results__options'>";
+                markup +=
+                    "<li class='select2-results__option'><strong>Nome:</strong> " +
+                    result.text + " - <strong>RA:</strong> " +
+                    result.id + "</li>";
+                markup += "</ul>";
+                return markup;
+            },
+            templateSelection: function (result) {
+                // mostrar apenas o nome selecionado em preto, com o ra_user entre parênteses
+                return "<span style='color:black;'>" + result.text +
+                    " (" + result.id + ")" + "</span>";
+            },
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            matcher: function (term, text, option) {
+                return text.toUpperCase().indexOf(term
+                    .toUpperCase()) == 0;
             }
-            xhr.open("GET", "http://localhost/schedule1/buscar_usuario.php", true);
-            xhr.send();
+        });
+    });
+
+    $('#description').select2({
+        placeholder: 'Pesquisar pela UC',
+        ajax: {
+            url: '../../funcoes_calendario/buscar_uc.php',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    search: params.term, // termo de pesquisa
+                    turma: $('#turma').val() // valor da turma selecionada
+                };
+            },
+            minimumInputLength: 2,
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (obj) {
+                        return {
+                            id: obj.id,
+                            text: obj.nome_uc,
+                            text_1: obj.turma,
+                        };
+                    })
+                };
+            },
+            cache: true
+        },
+        templateResult: function (result) {
+            // mostrar como lista com o número do RA
+            var markup =
+                "<ul class='select2-results__options'>";
+            markup +=
+                "<li class='select2-results__option'><strong>UC:</strong> " +
+                result.id + " - <strong>Nome:</strong> " +
+                result.text + "</li>";
+            markup += "</ul>";
+            return markup;
+        },
+        templateSelection: function (result) {
+            // mostrar apenas o nome selecionado em preto, com a turma entre parênteses
+            return "<span style='color:black;'>" + result.id +
+                " (" + result.text + " uc" + " - " + " turma)" + "</span>";
+        },
+        escapeMarkup: function (markup) {
+            return markup;
+        },
+        matcher: function (term, text, option) {
+            return text.toUpperCase().indexOf(term
+                .toUpperCase()) == 0;
         }
     });
+
+
+
+    $(document).ready(function () {
+        // Initialize the select2 plugin
+        $('#turma').select2({
+            placeholder: 'Pesquisar nome da turma',
+            ajax: {
+                url: '../../funcoes_calendario/buscar_turmas.php',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        search: params.term // termo de pesquisa
+                    };
+                },
+                minimumInputLength: 2,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.nome,
+                            };
+                        })
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.nome,
+                            };
+                        })
+                    };
+                },
+
+                cache: true
+            },
+            templateResult: function (result) {
+                // mostrar como lista com o número do RA
+                var markup =
+                    "<ul  class='select2-results__options'>";
+                markup +=
+                    "<li class='select2-results__option'><strong>Nome:</strong> " +
+                    result.text + " - <strong>ID:</strong> " +
+                    result.id + "</li>";
+                markup += "</ul>";
+                return markup;
+            },
+            templateSelection: function (result) {
+                // mostrar apenas o nome selecionado em preto, com o id entre parênteses
+                return "<span style='color:black;'>" + result.text +
+                    " (" + result.id + ")" + "</span>";
+            },
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            matcher: function (term, text, option) {
+                return text.toUpperCase().indexOf(term
+                    .toUpperCase()) == 0;
+            },
+            data: function (params) {
+                return {
+                    search: params.term // termo de pesquisa
+                };
+            }
+        }).on('change', function () {
+            // Obter o ID da turma selecionada
+            var class_id = $(this).val();
+
+            // Verificar se a opção "todas as aulas" foi selecionada
+            if (class_id === 'all') {
+                // Redirecionar para a página do calendário sem filtro de turma
+                window.location.href = "../adm/index.php";
+            } else {
+                // Redirecionar para a página do calendário com os parâmetros 'class_id' e 'uc_id' na URL
+                window.location.href = "../adm/index.php?class_id=" + class_id;
+            }
+        });
+
+    });
+
+
 
     //Arraste e redimensionamento de eventos
     // função que faz a converção de mês, data e minutos para string, para o banco reconhcer 
@@ -630,18 +816,17 @@ $(function () {
         let minutesEnd = ((newDateEnd.getMinutes()) < 9) ? "0" + newDateEnd.getMinutes() : newDateEnd.getMinutes();
         newDateEnd = `${newDateEnd.getFullYear()}-${monthEnd}-${dayEnd} ${newDateEnd.getHours()}:${minutesEnd}:00`
 
-        console.log(info.event.start);
-        console.log(info.event.end);
 
-        let reqs = await fetch('http://localhost/schedule/ControllerDrop.php', {
+        let reqs = await fetch('../../funcoes_calendario/ControllerDrop.php', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: `id=${info.event.id}&start=${newDate}&end=${newDateEnd}`
+
         });
+        location.reload();
         let ress = await reqs.json();
+
     }
-
-
 });

@@ -4,16 +4,14 @@ require_once('../db-connect.php');
 // Definir codificação para exibir caracteres especiais corretamente
 $conn->set_charset("utf8");
 
-// Verificar se a variável $_GET['turma_id'] foi definida
-if (isset($_GET['turma_id'])) {
+// Verificar se a variável $nova_turma_id foi definida
+if (isset($nova_turma_id)) {
   // Recuperar o ID da turma da qual se deseja obter as UCs cadastradas
-  $turma_id = $_GET['turma_id'];
+  $turma_id = $nova_turma_id;
 
   // Buscar o nome da turma correspondente
   $turma_result = $conn->query("SELECT nome FROM turma WHERE id='".$turma_id."'");
   $turma = $turma_result->fetch_assoc();
-
-
 
   // Buscar a lista de UCs associadas a essa turma
   $ucs_turma = $conn->query("SELECT nome_uc FROM uc WHERE num_turma='".$turma_id."' ORDER BY nome_uc ASC");
@@ -32,10 +30,4 @@ if (isset($_GET['turma_id'])) {
   // Caso não tenha sido definido o ID da turma, exibir mensagem
   echo "<p>Selecione uma turma para exibir suas UCs cadastradas.</p>";
 }
-
-    ?>
-
-
-
-
-
+?>

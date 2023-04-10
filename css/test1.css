@@ -1,0 +1,462 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+.bg-light {
+    background-color: #E7E7E7 !important;
+    
+}
+.fc-scrollgrid-sync-table{
+  background-color: white;
+}
+
+#calendar{
+  left: 40%;
+  position: relative;
+  top: -190%;
+}
+
+
+.container img{
+  margin-top: 96%;
+  margin-left: 30%;
+}
+
+
+.bem{
+  position: relative;
+  font-weight: 400;
+  font-size: 40px;
+  top: 23%;
+  left: 11.3%;
+  color: #787878;
+  max-width: 400px;
+  
+}
+
+.vindo{
+  position: relative;
+  font-weight: 800;
+  font-size: 40px;
+  top: 23%;
+  left: 12%;
+  color: #434141;
+  max-width: 400px;
+  
+}
+
+
+header {
+  display: flex;
+  width: 277px;
+  height: 82px;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.logo {
+  
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 82px;
+  text-align: left;
+  color: #434141;
+  margin: 1rem 10rem;
+  
+}
+
+
+span1{
+    color: #F78B1F;
+}
+
+span{
+    color: #005594;
+}
+
+
+
+#aula-form .card-title {
+  padding-top: 15px;
+}
+
+#trocar-form-btn-feriado{
+  border: none;
+  background-color: #fafafa;
+  font-size: 14px;
+
+}
+
+#trocar-form-btn-aula {
+  border: none;
+  background-color: #fafafa;
+  font-size: 14px;
+}
+
+
+        .container{
+            margin-top: 10vh;
+        }
+        :root {
+            --bs-success-rgb: 71, 222, 152 !important;
+        }
+
+        .test{
+            border-radius: 5px !important;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            font-family: roboto;
+        }
+
+        .btn-info.text-light:hover,
+        .btn-info.text-light:focus {
+            background: #000;
+        }
+        table, tbody, td, tfoot, th, thead, tr {
+            border-color: #ededed !important;
+            border-style: solid;
+            border-width: 1px !important;
+        }
+
+        ul li{
+            list-style:none;
+            position: inline-block;
+            float:left;
+            color:#fff;
+            padding:  0 0 0 30px;
+        }
+
+.fc-toolbar-title::first-letter {
+    text-transform:capitalize;
+  }
+  .fc-toolbar-title-container {
+    
+    width: 100px; 
+    overflow: hidden; 
+  }
+  .fc-day-sat, .fc-day-sun {
+    color: #B8B8B8;
+  }
+
+  .fc-toolbar-title {
+    color: #434141;
+    font-weight: bold;
+    flex: 0 0 200px;
+    min-width: 10px;
+  }
+  .fc-col-header-cell-cushion {
+    text-decoration: none;
+}
+
+.fc-day-today {
+    background-color: transparent !important; 
+  }
+  
+  .fc-day-today .fc-daygrid-day-number {
+    color: #F78B1F !important;
+  }
+  
+  .fc-day-today .fc-daygrid-day-number:hover {
+    background-color: transparent;
+    border-radius: 0;
+    color: #Fff !important;
+    transition: background-color 0.2s;
+  }
+  .fc-day-today .fc-daygrid-day-number {
+    border-radius: 50%;
+    width: 30px;
+    height: 32px;
+    background-color:#FF9022 !important;
+    color: #ffffff !important;
+    transition: border-radius 0s !important;
+    pointer-events: none; 
+  }
+  .fc-day-today {
+    position: relative;
+    z-index: 1;
+  }
+  .fc-next-button[aria-pressed="true"] {
+    background-color: #FF9022 !important; 
+    color: #ffffff !important;
+  }
+  
+  .fc-daygrid-day-number {
+    float: right;
+    padding: 0 2px;
+    width: 30px;
+    text-align: center;
+    text-decoration: none;
+    opacity: 1;
+    filter: alpha(opacity=1);
+  }
+
+  .fc-daygrid-day-frame:hover .fc-daygrid-day-number {
+    width: 30px;
+    text-align: center;
+    background-color: #B8B8B8;
+    border-radius: 50%;
+    color: #ffffff !important;
+    transition: background-color 0.2s;
+}
+  .fc-prev-button, .fc-next-button {
+	  font-size: 2em;
+	  line-height: 23px;
+	  vertical-align: baseline;
+    background-color: transparent;  
+    color: #333;
+    font-size: 20px;
+    font-family: "Font Awesome 5 Free";
+    line-height: 1;
+    padding: 0;
+    text-align: center;
+    width: 60px;
+    border-color: transparent;
+	  color: #FF9022;
+    font-weight: 600;
+
+  }
+
+  .fc-next-button {
+    border-radius:0 5px 5px  0 !important;
+    margin-right: 20px;
+  }
+
+  .fc-prev-button{
+    margin-left: 20px;
+  }
+  .fa-chevron-right,.fa-chevron-left{
+    color: #434141;
+    border-color: transparent !important;
+  }
+
+  
+  .fc-prev-button:hover,.fc-next-button:hover {
+  cursor: default;
+	background-image: none;
+	background-color: #faeddf;
+	filter: alpha(opacity=65);
+	box-shadow: none;
+	border:1px solid #faeddf;
+	color: #FF9022;
+  border-color: transparent;
+    
+}
+.fc-next-button.fc-state-active {
+  background-color: #FF9022 !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  }
+
+  .fc-prev-button:focus, .fc-next-button:focus{
+    color: #ffffff;
+    outline: none ;
+    background-image:none; 
+    background-color: transparent;
+    transition: none ;
+    border-color:transparent;
+    box-shadow: none  !important;
+  } 
+
+  .tr{
+    border-bottom-width: 1px;
+    border-color: #cdcdcd;
+    font-size: 16px;
+    font-weight: 300;
+	  line-height: 30px;
+}
+  .fc-state-disabled{
+   cursor: default;
+	background-image: none;
+	background-color: #faeddf;
+	filter: alpha(opacity=65);
+	box-shadow: none;
+	border:1px solid #faeddf;
+	color: #FF9022;
+  }
+  .fc-dayGridMonth-button.btn.btn-primary.active {
+    font-weight: 600;
+    border: none;
+    background-color:#FF9022;
+    color: #fff;
+  }
+  .fc-dayGridMonth-button{
+    font-weight: 600;
+    color:#615E5E;
+    background-color:transparent;
+    border-color: #FF9022;
+
+  }
+  .fc-dayGridMonth-button:hover{
+    font-weight: 600;
+    color:#FF9022;
+    background-color:#FF9022 ;
+    cursor: default;
+    background-image: none;
+    background-color: #faeddf;
+    filter: alpha(opacity=65);
+    box-shadow: none;
+    border:1px solid #faeddf;
+    color: #FF9022;
+    border-color: #FF9022;
+
+  }
+
+  .fc-dayGridMonth-button:focus{
+    font-weight: 600;
+    display: none;
+    border: none !important;
+    color: #ffffff !important;
+    background-color: #FF9022 !important;
+
+  }
+
+  .fc-dayGridWeek-button.btn.btn-primary.active {
+    font-weight: 600;
+    border: none;
+    background-color:#FF9022;
+    color: #fff;
+  }
+  .fc-dayGridWeek-button{
+    font-weight: 600;
+    color:#615E5E;
+    background-color:transparent;
+    border-color: #FF9022;
+
+  }
+  .fc-dayGridWeek-button:hover{
+    font-weight: 600;
+    color:#FF9022;
+    background-color:#FF9022 ;
+    cursor: default;
+    background-image: none;
+    background-color: #faeddf;
+    filter: alpha(opacity=65);
+    box-shadow: none;
+    border:1px solid #faeddf;
+    color: #FF9022;
+    border-color: #FF9022;
+
+  }
+
+  .fc-dayGridWeek-button:focus{
+    font-weight: 600;
+    display: none;
+    border: none !important;
+    color: #ffffff !important;
+    background-color: #FF9022 !important;
+
+  }
+  .fc-list-button.btn.btn-primary.active {
+    font-weight: 600;
+    border: none;
+    background-color:#FF9022;
+    color: #fff;
+  }
+  .fc-list-button{
+    font-weight: 600;
+    color:#615E5E;
+    background-color:transparent;
+    border-color: #FF9022;
+
+  }
+  .fc-list-button:hover{
+    font-weight: 600;
+    color:#FF9022;
+    background-color:#FF9022 ;
+    cursor: default;
+    background-image: none;
+    background-color: #faeddf;
+    filter: alpha(opacity=65);
+    box-shadow: none;
+    border:1px solid #faeddf;
+    color: #FF9022;
+    border-color: #FF9022;
+
+  }
+
+  .fc-list-button:focus{
+    font-weight: 600;
+    display: none;
+    border: none !important;
+    color: #ffffff !important;
+    background-color: #FF9022 !important;
+  }
+  
+
+
+  .fc-today-button.btn.btn-primary.active {
+    font-weight: 600;
+    border: none;
+    background-color:#FF9022;
+    color: #fff;
+  }
+
+  .fc-today-button.btn.btn-primary {
+    font-weight: 600;
+    border: none;
+    background-color:#FF9022 ;
+    color: #fff;
+  }
+  .fc-today-button{
+    font-weight: 600;
+    color:#FF9022;
+    background-color:transparent;
+    border-color: #FF9022;
+
+  }
+  .fc-today-button:hover{
+    font-weight: 600;
+    color:#FF9022;
+    background-color: #FF9022 ;
+    cursor: default;
+    background-image: none;
+    background-color: #faeddf;
+    filter: alpha(opacity=65);
+    box-shadow: none;
+    border:1px solid #faeddf;
+    color: #FF9022;
+    border-color: #FF9022;
+
+  }
+
+  .fc-today-button:focus{
+    font-weight: 600;
+    display: none;
+    border: none ;
+    color: #ffffff ;
+    background-color: #FF9022 ;
+  }
+  .fc-col-header-cell.fc-day{
+    border-left: 0;
+    border-right: 0;
+    border-radius: 6px 6px 0 0;
+    border-color: #f7f7f7;
+    background-color: #f7f7f7;
+  }
+ 
+  .card-header.bg-gradient.bg-primary.text-light{
+    text-align: center !important;
+    color: #434141 !important;
+    background-color: transparent !important ;
+    border: none !important;
+  }
+  .card-title{
+    font-weight: 600;
+  }
+

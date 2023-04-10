@@ -1,17 +1,7 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Jan 06, 2022 at 07:16 AM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-#criação de uma tabela
 CREATE TABLE usuario (
 ra_user INT PRIMARY KEY,
 nome VARCHAR(255),
@@ -26,19 +16,19 @@ FOREIGN KEY (ra) REFERENCES usuario(ra_user)
 );
 
 CREATE TABLE turma (
-id INT PRIMARY KEY,
+id varchar(255) PRIMARY KEY,
 nome VARCHAR(255),
-tipo ENUM('Trilhas', 'Aprendizagem', 'PSG,', 'Pago', 'MBA'),
-sala VARCHAR(25),
+tipo ENUM('Trilhas', 'Aprendizagem', 'PSG', 'Pago', 'MBA'),
+sala VARCHAR(255),
 turno VARCHAR(25),
-carga_horaria Time
+carga_horaria int
 );
 
 CREATE TABLE uc (
 id INT AUTO_INCREMENT PRIMARY KEY,
 nome_uc varchar(255),
-num_turma int,
-carga_horaria Time,
+num_turma varchar(255),
+carga_horaria int,
 FOREIGN KEY (num_turma) REFERENCES turma (id)
 );
 
@@ -61,6 +51,14 @@ titulo VARCHAR(32) NOT NULL,
 descricao VARCHAR(32) NOT NULL,
 horario_inicio DATETIME NOT NULL,
 horario_fim DATETIME DEFAULT NULL
+);
+
+CREATE TABLE insert_calendario_de_aula (
+id INT AUTO_INCREMENT PRIMARY KEY,
+ra_docente INT,
+id_uc VARCHAR(25),
+horario_inicio DATETIME,
+horario_fim DATETIME
 );
 
 DELIMITER $$
@@ -90,14 +88,13 @@ BEGIN
     SET carga_horaria_aula = TIMESTAMPDIFF(HOUR, NEW.horario_inicio, NEW.horario_fim);
 
     UPDATE uc
-    SET carga_horaria = carga_horaria - INTERVAL carga_horaria_aula HOUR
+    SET carga_horaria = carga_horaria - carga_horaria_aula
     WHERE id = NEW.id_uc;
 
     UPDATE turma
-    SET carga_horaria = carga_horaria - INTERVAL carga_horaria_aula HOUR
+    SET carga_horaria = carga_horaria - carga_horaria_aula 
     WHERE id = (SELECT num_turma FROM uc WHERE id = NEW.id_uc);
 END$$
-
 CREATE TRIGGER update_carga_horaria_update
 AFTER UPDATE ON calendario_de_aula
 FOR EACH ROW
@@ -106,21 +103,21 @@ BEGIN
     SET carga_horaria_aula = TIMESTAMPDIFF(HOUR, OLD.horario_inicio, OLD.horario_fim);
 
     UPDATE uc
-    SET carga_horaria = carga_horaria + INTERVAL carga_horaria_aula HOUR
+    SET carga_horaria = carga_horaria + carga_horaria_aula
     WHERE id = OLD.id_uc;
 
     UPDATE turma
-    SET carga_horaria = carga_horaria + INTERVAL carga_horaria_aula HOUR
+    SET carga_horaria = carga_horaria + carga_horaria_aula
     WHERE id = (SELECT num_turma FROM uc WHERE id = OLD.id_uc);
 
     SET carga_horaria_aula = TIMESTAMPDIFF(HOUR, NEW.horario_inicio, NEW.horario_fim);
 
     UPDATE uc
-    SET carga_horaria = carga_horaria - INTERVAL carga_horaria_aula HOUR
+    SET carga_horaria = carga_horaria - carga_horaria_aula
     WHERE id = NEW.id_uc;
 
     UPDATE turma
-    SET carga_horaria = carga_horaria - INTERVAL carga_horaria_aula HOUR
+    SET carga_horaria = carga_horaria - carga_horaria_aula
     WHERE id = (SELECT num_turma FROM uc WHERE id = NEW.id_uc);
 END$$
 
@@ -205,22 +202,60 @@ BEGIN
     END IF;
 END$$
 
-DELIMITER ;
+CREATE TRIGGER insere_aulas_calendario
+AFTER INSERT ON insert_calendario_de_aula
+FOR EACH ROW
+BEGIN
+    DECLARE dt_inicio DATE;
+    DECLARE dt_fim DATE;
+    DECLARE dt_atual DATE;
+    DECLARE ra_docente INT;
+    DECLARE id_uc INT;
 
+    SET dt_inicio = NEW.horario_inicio;
+    SET dt_fim = NEW.horario_fim;
+    SET dt_atual = dt_inicio;
+    SET ra_docente = NEW.ra_docente;
+    SET id_uc = NEW.id_uc;
+
+#    DROP TEMPORARY TABLE IF EXISTS temp_calendario_de_aula;
+#    CREATE TEMPORARY TABLE temp_calendario_de_aula (
+#        ra_docente INT,
+#        id_uc INT,
+#        horario_inicio DATETIME,
+#        horario_fim DATETIME
+#    );
+
+    WHILE dt_atual <= dt_fim DO
+        INSERT INTO calendario_de_aula (ra_docente, id_uc, horario_inicio, horario_fim)
+        VALUES (ra_docente, id_uc, CONCAT(dt_atual, ' ', TIME(NEW.horario_inicio)), CONCAT(dt_atual, ' ', TIME(NEW.horario_fim)));
+
+        SET dt_atual = DATE_ADD(dt_atual, INTERVAL 1 DAY);
+    END WHILE;
+END$$
+
+CREATE TRIGGER insert_docente AFTER INSERT ON usuario
+FOR EACH ROW
+BEGIN
+    IF NEW.tipo = 'docente' THEN
+        INSERT INTO docentes (ra) VALUES (NEW.ra_user);
+    END IF;
+END$$
+
+DELIMITER ;
 #INSERTS
 INSERT INTO usuario (ra_user, nome, email, senha, tipo)
 VALUES ('1001','João da Silva','joao@', '123', 'administrador'), ('1002','Matheus','matheus@', '123', 'docente'), ('1003','Cadu','cadu@', '123', 'docente');
 
-INSERT INTO docentes (ra)
-VALUES (1002), (1003);
-  
-INSERT INTO turma (id, nome, tipo, sala,turno, carga_horaria)
+INSERT INTO turma (id, nome, tipo, sala, turno, carga_horaria)
 VALUES
-('0222','sistema','trilhas','04','manhã','820:00'),('0333','redes','trilhas','14','manhã','800:00'),('0444','administração','aprendizagem','14','manhã','780:00');
+  ('0222','sistema','trilhas', '08', 'Matutino', '1200'),('0333','redes','trilhas', '10', 'Vespertino', '800'),('0444','administração','aprendizagem', '07', 'Noturno', '780');
   
 INSERT INTO uc (nome_uc, num_turma, carga_horaria)
-VALUES ('web', 222, '50:00:00'),('desktop', 333, '40:00:00'), ('mobile', 222, '10:00:00'),('hardware', 333, '32:00:00'), ('Arquivos digitais', 444, '12:00:00') ;
+VALUES ('web', '0222', '500'),('desktop', '0333', '40'), ('mobile', '0222', '10'),('hardware', '0333', '32'), ('Arquivos digitais', '0444', '12') ;
 
-INSERT INTO `calendario_de_aula` (`ra_docente`, `id_uc`, `horario_inicio`, `horario_fim`) VALUES
-(1002, 1, '2023-03-19 07:30:00', '2023-03-19 11:30:00'),
-(1003, 2, '2023-03-20 13:30:00', '2023-03-20 17:30:00');
+INSERT INTO `insert_calendario_de_aula` (`ra_docente`, `id_uc`, `horario_inicio`, `horario_fim`) VALUES
+(1003, 1, '2023-02-21 07:30:00', '2023-02-21 11:30:00');
+
+INSERT INTO `insert_calendario_de_aula` (`ra_docente`, `id_uc`, `horario_inicio`, `horario_fim`) VALUES
+(1003, 2, '2023-02-24 07:30:00', '2023-02-24 11:30:00');
